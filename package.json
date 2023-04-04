@@ -1,0 +1,27 @@
+{
+  "name": "mmbuf",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "vitest",
+    "build": "unbuild",
+    "stub": "unbuild --stub",
+    "prepublishOnly": "npm run build",
+    "bump": "bumpp --commit --push --tag"
+  },
+  "files": [
+    "dist/"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "bumpp": "^9.1.0",
+    "typescript": "^5.0.3",
+    "unbuild": "^1.2.0",
+    "vitest": "^0.29.8"
+  }
+}
