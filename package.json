@@ -20,7 +20,6 @@
     "build": "unbuild",
     "stub": "unbuild --stub",
     "prepublishOnly": "npm run build",
-    "postinstall": "husky install",
     "bump": "bumpp --commit --push --tag",
     "lint": "eslint",
     "lint:fix": "eslint --fix"
