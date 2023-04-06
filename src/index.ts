@@ -6,7 +6,7 @@ export type MemoryBufferHandlers = {
 	[key: string]: (buffer: MemoryBuffer, ...args: any[]) => any
 }
 
-export interface MemoryBuffer extends Record<string, any> { 
+export interface MemoryBuffer extends Record<string, any> {
 	readonly offset: number;
 	readonly length: number;
 	[Symbol.iterator](): Iterator<number>;
@@ -18,7 +18,7 @@ export interface MemoryBuffer extends Record<string, any> {
 	readUNumber(length: number): number;
 	readString(length: number): string;
 	readBytes(length: number): Uint8Array;
-	readObject<T extends Record<string,any> = MemoryBufferDefine>(define: T):  any
+	readObject<T extends Record<string, any> = MemoryBufferDefine>(define: T): any
 	readInt(): number;
 	readUInt(): number;
 	readShort(): number;
@@ -30,9 +30,9 @@ export interface MemoryBuffer extends Record<string, any> {
 
 }
 
-// 将字节数组转换为无符号的数字
+// 将字节数组转换为无符号的数字,正序读
 function bytesToUNumber(bytes: Uint8Array) {
-	return bytes.reduce((n, b) => (n << 8) | b, 0);
+	return bytes.reduce((n, b, i) => n | b * (1 << (i * 8)), 0);
 }
 
 
