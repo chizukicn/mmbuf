@@ -2,26 +2,43 @@
   "name": "mmbuf",
   "version": "0.0.2",
   "description": "",
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chizukicn/mmbuf.git"
+  },
+  "keywords": [],
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "test": "vitest",
     "build": "unbuild",
     "stub": "unbuild --stub",
     "prepublishOnly": "npm run build",
-    "bump": "bumpp --commit --push --tag"
+    "postinstall": "husky install",
+    "bump": "bumpp --commit --push --tag",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix"
   },
-  "files": [
-    "dist/"
-  ],
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
+    "@curev/eslint-config": "^0.0.9",
     "bumpp": "^9.1.0",
+    "eslint": "^8.37.0",
+    "lint-staged": "^13.2.0",
+    "simple-git-hooks": "^2.8.1",
     "typescript": "^5.0.3",
     "unbuild": "^1.2.0",
     "vitest": "^0.29.8"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
   }
 }
