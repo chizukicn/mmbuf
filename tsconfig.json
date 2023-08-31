@@ -1,23 +1,23 @@
 {
-    "compilerOptions": {
-        "target": "esnext",
-        "module": "esnext",
-        "lib": ["esnext", "DOM"],
-        "moduleResolution": "node",
-        "esModuleInterop": true,
-        "strict": true,
-        "strictNullChecks": true,
-        "resolveJsonModule": true,
-        "skipDefaultLibCheck": true,
-        "outDir": "./dist",
-        "declaration": true,
-        "sourceMap": true,
-        "jsx": "preserve",
-        "baseUrl": "./"
-    },
-    "include": [
-        "src/**/*.ts",
-        "test/**/*.ts"
-    ],
-    "exclude": ["node_modules", "dist"]
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "lib": ["esnext", "DOM"],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "skipDefaultLibCheck": true,
+    "outDir": "./dist",
+    "declaration": true,
+    "sourceMap": true,
+    "jsx": "preserve",
+    "baseUrl": "./"
+  },
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
 }

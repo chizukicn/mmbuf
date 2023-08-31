@@ -27,6 +27,9 @@ export interface MemoryBuffer extends Record<string, any> {
   readShort(signed?: boolean): number
   readByte(signed?: boolean): number
   readLong(signed?: boolean): number
+  readFloat(signed?: boolean): number
+  readDouble(signed?: boolean): number
+
   readArray(length: number, define: MemoryBufferDefineType): any[]
 
   writeNumber(value: number, length: number, signed?: boolean): this
@@ -37,6 +40,9 @@ export interface MemoryBuffer extends Record<string, any> {
   writeShort(value: number, signed?: boolean): this
   writeByte(value: number, signed?: boolean): this
   writeLong(value: number, signed?: boolean): this
+  writeFloat(value: number, signed?: boolean): this
+  writeDouble(value: number, signed?: boolean): this
+
   writeArray(value: any[], length: number, define: MemoryBufferDefineType): this
 
   defineRead(defineRecord: MemoryBufferDefineType): () => any
@@ -51,10 +57,42 @@ function bytesToUNumber(bytes: Uint8Array) {
 function numberToBytes(n: number, length: number) {
   const bytes = new Uint8Array(length);
   for (let i = 0; i < length; i++) {
-    bytes[i] = n & 0xFF;
-    n = n >> 8;
+    bytes[i] = n >> (i * 8) & 0xFF;
   }
   return bytes;
+}
+
+export function bytesToFloat(bytes: Uint8Array, signed = true) {
+  const buffer = new ArrayBuffer(4);
+  const view = new DataView(buffer);
+  for (let i = 0; i < 4; i++) {
+    view.setUint8(i, bytes[i] & 0xFF);
+  }
+  return view.getFloat32(0, signed);
+}
+
+function floatToBytes(n: number, signed = true): Uint8Array {
+  const buffer = new ArrayBuffer(4);
+  const view = new DataView(buffer);
+  view.setFloat32(0, n, signed);
+  const bytes = new Uint8Array(buffer);
+  return bytes;
+}
+
+function bytesToDouble(bytes: Uint8Array, signed = true) {
+  const buffer = new ArrayBuffer(8);
+  const view = new DataView(buffer);
+  for (let i = 0; i < 8; i++) {
+    view.setUint8(i, bytes[i] & 0xFF);
+  }
+  return view.getFloat64(0, signed);
+}
+
+function doubleToBytes(n: number, signed = true): Uint8Array {
+  const buffer = new ArrayBuffer(8);
+  const view = new DataView(buffer);
+  view.setFloat64(0, n, signed);
+  return new Uint8Array(buffer);
 }
 
 // 将字节数组转换为带符号的数字
@@ -183,6 +221,12 @@ export function createMemoryBuffer(bytes: Iterable<number> = [], options: Memory
     readLong(signed) {
       return this.readNumber(8, signed);
     },
+    readFloat(signed = options.signedNumber) {
+      return bytesToFloat(this.readBytes(4), signed);
+    },
+    readDouble(signed = options.signedNumber) {
+      return bytesToDouble(this.readBytes(8), signed);
+    },
     readString(length?: number) {
       if (!length) {
         length = _buffer.findIndex((b, i) => i > _offset && b === 0);
@@ -276,6 +320,14 @@ export function createMemoryBuffer(bytes: Iterable<number> = [], options: Memory
     },
     writeLong(value: number, signed = options.signedNumber) {
       return this.writeNumber(value, 8, signed);
+    },
+    writeFloat(value: number, signed = options.signedNumber) {
+      const bytes = floatToBytes(value, signed);
+      return this.writeBytes(bytes);
+    },
+    writeDouble(value: number, signed = options.signedNumber) {
+      const bytes = doubleToBytes(value, signed);
+      return this.writeBytes(bytes);
     },
     writeString(str: string, length?: number) {
       const bytes = stringToBytes(str, length ?? str.length);

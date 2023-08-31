@@ -42,4 +42,22 @@ describe("test", async () => {
     expect(obj.c.d).toBe(3);
     expect(obj.c.e).toBe(4);
   });
+
+  it("test float", async () => {
+    const buffer = createMemoryBuffer([], {
+      signedNumber: false
+    });
+
+    const rawFloat = 1.22;
+
+    buffer.writeFloat(rawFloat);
+    buffer.writeDouble(Math.PI);
+    buffer.resume();
+
+    // IEEE 754处理精度
+    const f = Math.round(buffer.readFloat() * 100) / 100;
+
+    expect(f).toBe(rawFloat);
+    expect(buffer.readDouble()).toBe(Math.PI);
+  });
 });

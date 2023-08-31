@@ -1,8 +1,8 @@
 {
   "name": "mmbuf",
   "version": "0.0.4",
-  "description": "",
-  "author": "",
+  "description": "memory buffer",
+  "author": "chizukicn",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -16,23 +16,27 @@
     "dist/"
   ],
   "scripts": {
+    "dev": "vitest",
     "test": "vitest",
     "build": "unbuild",
     "stub": "unbuild --stub",
     "prepublishOnly": "npm run build",
     "bump": "bumpp --commit --push --tag",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "up": "taze major"
   },
   "devDependencies": {
-    "@curev/eslint-config": "^0.0.9",
-    "bumpp": "^9.1.0",
-    "eslint": "^8.37.0",
-    "lint-staged": "^13.2.0",
-    "simple-git-hooks": "^2.8.1",
-    "typescript": "^5.0.3",
-    "unbuild": "^1.2.0",
-    "vitest": "^0.29.8"
+    "@curev/eslint-config": "^0.2.1",
+    "@types/node": "^20.5.7",
+    "bumpp": "^9.2.0",
+    "eslint": "^8.48.0",
+    "lint-staged": "^14.0.1",
+    "simple-git-hooks": "^2.9.0",
+    "taze": "^0.11.2",
+    "typescript": "^5.2.2",
+    "unbuild": "^2.0.0",
+    "vitest": "^0.34.3"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"
